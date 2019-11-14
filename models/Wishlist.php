@@ -59,6 +59,17 @@ class Wishlist extends Model
     }
 
     /**
+     * Return a PDF instance of this Wishlist.
+     *
+     * @return \Barryvdh\DomPDF\PDF
+     * @throws \Cms\Classes\CmsException
+     */
+    public function getPDF()
+    {
+        return $this->makePDFFromDir('wishlist', ['wishlist' => $this]);
+    }
+
+    /**
      * Return all wishlists for the currently logged in user or
      * the currently active user session.
      */
@@ -151,10 +162,5 @@ class Wishlist extends Model
                 $wishlist->items->each->delete();
                 $wishlist->delete();
             });
-    }
-
-    public function getPDF()
-    {
-        return $this->makePDFFromDir('wishlist', ['wishlist' => $this]);
     }
 }
