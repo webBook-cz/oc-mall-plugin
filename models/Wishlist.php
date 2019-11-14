@@ -9,6 +9,7 @@ use OFFLINE\Mall\Classes\Exceptions\OutOfStockException;
 use OFFLINE\Mall\Classes\Totals\TotalsCalculator;
 use OFFLINE\Mall\Classes\Totals\TotalsCalculatorInput;
 use OFFLINE\Mall\Classes\Traits\HashIds;
+use OFFLINE\Mall\Classes\Traits\PDFMaker;
 use RainLab\User\Models\User;
 use Session;
 
@@ -19,6 +20,7 @@ class Wishlist extends Model
 {
     use Validation;
     use HashIds;
+    use PDFMaker;
 
     public $table = 'offline_mall_wishlists';
     public $rules = [
@@ -149,5 +151,10 @@ class Wishlist extends Model
                 $wishlist->items->each->delete();
                 $wishlist->delete();
             });
+    }
+
+    public function getPDF()
+    {
+        return $this->makePDFFromDir('wishlist', ['wishlist' => $this]);
     }
 }
